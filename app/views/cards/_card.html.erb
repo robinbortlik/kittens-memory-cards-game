@@ -1,0 +1,11 @@
+<div id="<%= dom_id card %>" class="h-full w-full flex">
+  <% if card.flipped? || card.resolved? %>
+    <div class='<%=class_names("h-full w-full bg-cover bg-no-repeat bg-clip-content bg-origin-padding bg-center", grayscale: card.resolved?)%>' style="background-image: url('<%= image_path("kittens/#{card.value}.jpg") %>');">
+    </div>
+    <%= avatar( game, card.user, class_names: "absolute w-6 h-6") if card.user %>
+  <% else %>
+    <%= link_to game_card_path(game.id, card.id), "data-turbo-stream" => true, class: "h-full w-full flex items-center justify-center" do %>
+      Kittens
+    <% end %>
+  <% end %>
+</div>

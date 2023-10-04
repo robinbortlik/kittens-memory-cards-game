@@ -1,0 +1,36 @@
+<div class="flex flex-col player-<%= game.current_player %>" id="<%= dom_id game %>" data-delay="1000">
+  <div class="flex flex-row mx-auto mb-8">
+    <% game.users.each do |user| %>
+        <div class="flex flex-col items-center">
+          <div class="avatar-you avatar-you-<%= user %>">
+            You
+          </div>
+          <div class="<%= class_names("p-2", "bg-emerald-200 animate-pulse rounded-full": game.is_playing?(user))%>">
+            <%= avatar game, user %>
+          </div>
+
+          <div class="ml-1">
+            <%= game.cards_count_for_user(user) %> <%= "Winner" if game.winner == user %>
+          </div>
+        </div>
+    <% end %>
+  </div>
+
+  <div class="w-full pb-4 text-center">
+    <span class="wait text-red-500">Wait</span>
+    <span class="play text-green-500">Play</span>
+  </div>
+  <% if game.finished? %>
+    <div class="bg-emerald-100 rounded-b text-emerald-900 px-4 py-3 shadow-md mb-8 flex" role="alert">
+      <div class="font-bold flex-1">Game has finished</div><div><%= link_to "Start new game", reset_game_path(game.id), class: "bg-emerald-600 hover:bg-emerald-400 animate-pulse text-white font-bold py-2 px-4 rounded" %></div>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-4 gap-4">
+    <% game.cards.each do |card| %>
+      <div class="border-2 border-indigo-600 h-32 card">
+        <%= render 'cards/card', card: card, game: game %>
+      </div>
+    <% end %>
+  </div>
+</div>
